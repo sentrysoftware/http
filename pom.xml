@@ -4,7 +4,7 @@
 	<groupId>org.sentrysoftware</groupId>
 	<artifactId>http</artifactId>
 	<name>HTTP Java Client</name>
-	<version>1.0.00</version>
+	<version>1.1.00-SNAPSHOT</version>
 	<description>HTTP Client for Java</description>
 	<packaging>jar</packaging>
 
@@ -43,7 +43,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/sentrysoftware/http.git</connection>
 		<url>https://github.com/sentrysoftware/http</url>
-		<tag>v1.0.00</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
@@ -88,7 +88,7 @@
 
 		<!-- Reproducible Build -->
 		<!-- See https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-		<project.build.outputTimestamp>2024-01-05T15:27:07Z</project.build.outputTimestamp>
+		<project.build.outputTimestamp>2024-01-05T15:28:05Z</project.build.outputTimestamp>
 	</properties>
 
 	<dependencyManagement>
