@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class HttpClientTest {
 
 	/**
-	 * By default, HTTPBIN_URL points to Sentry's internal instance of httpbin:
+	 * By default, HTTPBIN_URL points to the public instance of httpbin:
 	 * <code>http://httpbin.org</code>
 	 * <p>
 	 * When running tests, you can set the <code>HTTPBIN_URL</code> environment variable
