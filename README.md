@@ -1,11 +1,13 @@
-# oss-maven-template
+# HTTP Java Client
 
-![GitHub release (with filter)](https://img.shields.io/github/v/release/sentrysoftware/oss-maven-template)
-![Build](https://img.shields.io/github/actions/workflow/status/sentrysoftware/oss-maven-template/deploy.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/sentrysoftware/oss-maven-template)
-![License](https://img.shields.io/github/license/sentrysoftware/oss-maven-template)
+![GitHub release (with filter)](https://img.shields.io/github/v/release/sentrysoftware/http)
+![Build](https://img.shields.io/github/actions/workflow/status/sentrysoftware/http/deploy.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/sentrysoftware/http)
+![License](https://img.shields.io/github/license/sentrysoftware/http)
 
-Repository template for all Sentry open-source Java projects, published on Maven Central.
+The HTTP Java Client is a simple Java library that facilitates the execution of HTTP requests. Built on Java's HttpURLConnection, it requires no external dependencies and supports various HTTP methods (GET, POST, PUT, DELETE).
+
+See **[Project Documentation](https://sentrysoftware.github.io/http)** and the [Javadoc](https://sentrysoftware.github.io/http/apidocs) for more information on how to use this library in your code.
 
 ## Build instructions
 

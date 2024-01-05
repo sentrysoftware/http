@@ -2,18 +2,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.sentrysoftware</groupId>
-	<artifactId>MYARTIFACT</artifactId>
-	<name>MY PROJECT</name>
-	<version>0.1.00-SNAPSHOT</version>
-	<description>SOME DESCRIPTION</description>
-  <packaging>jar</packaging>
+	<artifactId>http</artifactId>
+	<name>HTTP Java Client</name>
+	<version>1.0.00-SNAPSHOT</version>
+	<description>HTTP Client for Java</description>
+	<packaging>jar</packaging>
 
 	<organization>
 		<name>Sentry Software</name>
 		<url>https://sentrysoftware.com</url>
 	</organization>
 
-	<url>https://github.com/sentrysoftware/MYREPO</url>
+	<url>https://sentrysoftware.github.io/http</url>
 	<inceptionYear>2023</inceptionYear>
 
 	<distributionManagement>
@@ -37,28 +37,49 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/sentrysoftware/MYREPO/issues/</url>
+		<url>https://github.com/sentrysoftware/http/issues/</url>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/sentrysoftware/MYREPO.git</connection>
-		<url>https://github.com/sentrysoftware/MYREPO</url>
+		<connection>scm:git:https://github.com/sentrysoftware/http.git</connection>
+		<url>https://github.com/sentrysoftware/http</url>
 		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
 		<developer>
-			<name>MY NAME (@MY_ID)</name>
-			<email>MYNAME@sentrysoftware.com</email>
+			<name>Bertrand Martin (@bertysentry)</name>
+			<email>bertrand@sentrysoftware.com</email>
 			<roles>
-				<role>Project founder</role>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Nassim Boutekedjiret (@NassimBtk)</name>
+			<email>nassim@sentrysoftware.com</email>
+			<roles>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Kawtar Bakour (@KawtarBK9)</name>
+			<email>kawtar@sentrysoftware.com</email>
+			<roles>
+				<role>maintainer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Elyes Cherfa (@CherfaElyes)</name>
+			<email>elyes@sentrysoftware.com</email>
+			<roles>
+				<role>maintainer</role>
 			</roles>
 		</developer>
 	</developers>
 
 	<properties>
-		<!-- Java 11 -->
-		<maven.compiler.release>11</maven.compiler.release>
+		<!-- Java 8 -->
+		<maven.compiler.release></maven.compiler.release>
 
 		<!-- UTF-8 -->
 		<project.build.encoding>UTF-8</project.build.encoding>
@@ -93,6 +114,11 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -107,9 +133,16 @@
 					<version>3.6.3</version>
 					<configuration>
 						<detectJavaApiLink>false</detectJavaApiLink>
-						<source>${maven.compiler.release}</source>
+						<release>8</release>
 						<show>public</show>
 						<notimestamp>true</notimestamp>
+						<failOnError>false</failOnError>
+						<sourceFileIncludes>
+							<include>org/sentrysoftware/http/HttpClient.java</include>
+							<include>org/sentrysoftware/http/HttpResponse.java</include>
+							<include>org/sentrysoftware/http/ProtocolOverridingSSLSocketFactory.java</include>
+						</sourceFileIncludes>
+						<sourcepath>${basedir}/src/main/java</sourcepath>
 					</configuration>
 				</plugin>
 
@@ -123,6 +156,23 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.12.1</version>
+				<executions>
+					<execution>
+						<id>compile-java-21</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<release>17</release>
+							<compileSourceRoots>
+								<compileSourceRoot>${basedir}/src/main/java21</compileSourceRoot>
+							</compileSourceRoots>
+							<multiReleaseOutput>false</multiReleaseOutput>
+							<outputDirectory>${project.build.outputDirectory}/META-INF/versions/21</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- source -->
@@ -183,7 +233,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
 					<execution>
-							<id>attach-javadocs</id>
+						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -195,6 +245,12 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.3</version>
+				<configuration>
+					<argLine>
+						--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED
+						--add-exports java.base/sun.security.ssl=ALL-UNNAMED
+					</argLine>
+				</configuration>
 			</plugin>
 
 			<!-- site -->
@@ -214,6 +270,14 @@
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.3.0</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Add-Opens>java.base/java.lang java.base/java.util java.base/sun.net.www.protocol.http java.base/sun.security.ssl</Add-Opens>
+							<Multi-Release>true</Multi-Release>
+						</manifestEntries>
+					</archive>
+				</configuration>
 			</plugin>
 
 			<!-- install -->
@@ -259,7 +323,7 @@
 					<linkXref>true</linkXref>
 					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
 					<minimumTokens>50</minimumTokens>
-					<targetJdk>${maven.compiler.release}</targetJdk>
+					<targetJdk>8</targetJdk>
 				</configuration>
 			</plugin>
 
@@ -321,7 +385,7 @@
 
 	<profiles>
 
-			<!-- Profile for releasing the project -->
+		<!-- Profile for releasing the project -->
 		<profile>
 			<id>release</id>
 			<build>
