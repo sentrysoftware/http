@@ -7,7 +7,7 @@
 
 The HTTP Java Client is a simple Java library that facilitates the execution of HTTP requests. Built on Java's HttpURLConnection, it requires no external dependencies and supports various HTTP methods (GET, POST, PUT, DELETE).
 
-See **[Project Documentation](https://sentrysoftware.github.io/http)** and the [Javadoc](https://sentrysoftware.github.io/http/apidocs) for more information on how to use this library in your code.
+See **[Project Documentation](https://sentrysoftware.org/http)** and the [Javadoc](https://sentrysoftware.org/http/apidocs) for more information on how to use this library in your code.
 
 ## Build instructions
 
