@@ -18,7 +18,7 @@
 		<url>https://metricshub.com</url>
 	</organization>
 
-	<url>https://metricshub.org/http</url>
+	<url>https://metricshub.org/simple-http-java</url>
 	<inceptionYear>2023</inceptionYear>
 
 	<licenses>
@@ -31,12 +31,12 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/metricshub/http/issues/</url>
+		<url>https://github.com/metricshub/simple-http-java/issues/</url>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/metricshub/http.git</connection>
-		<url>https://github.com/metricshub/http</url>
+		<connection>scm:git:https://github.com/metricshub/simple-http-java.git</connection>
+		<url>https://github.com/metricshub/simple-http-java</url>
 		<tag>HEAD</tag>
 	</scm>
 

@@ -1,6 +1,6 @@
 # HTTP Java Client
 
-The HTTP Java Client is a simple Java library that facilitates the execution of HTTP requests. Built on Java's HttpURLConnection, it requires no external dependencies and supports various HTTP methods (GET, POST, PUT, DELETE).
+The Simple HTTP Java Client is a lightweight Java library designed to simplify the execution of HTTP requests. It leverages Java's built-in HttpURLConnection, requires no external dependencies, and supports multiple HTTP methods including GET, POST, PUT, and DELETE.
 
 ## Features
 

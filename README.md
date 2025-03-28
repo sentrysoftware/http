@@ -1,13 +1,13 @@
 # HTTP Java Client
 
-![GitHub release (with filter)](https://img.shields.io/github/v/release/metricshub/http)
-![Build](https://img.shields.io/github/actions/workflow/status/metricshub/http/deploy.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/metricshub/http)
-![License](https://img.shields.io/github/license/metricshub/http)
+![GitHub release (with filter)](https://img.shields.io/github/v/release/metricshub/simple-http-java)
+![Build](https://img.shields.io/github/actions/workflow/status/metricshub/simple-http-java/deploy.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/metricshub/simple-http-java)
+![License](https://img.shields.io/github/license/metricshub/simple-http-java)
 
-The HTTP Java Client is a simple Java library that facilitates the execution of HTTP requests. Built on Java's HttpURLConnection, it requires no external dependencies and supports various HTTP methods (GET, POST, PUT, DELETE).
+The Simple HTTP Java Client is a lightweight Java library designed to simplify the execution of HTTP requests. It leverages Java's built-in HttpURLConnection, requires no external dependencies, and supports multiple HTTP methods including GET, POST, PUT, and DELETE.
 
-See **[Project Documentation](https://metricshub.org/http)** and the [Javadoc](https://metricshub.org/http/apidocs) for more information on how to use this library in your code.
+See **[Project Documentation](https://metricshub.org/simple-http-java)** and the [Javadoc](https://metricshub.org/simple-http-java/apidocs) for more information on how to use this library in your code.
 
 ## Build instructions
 
