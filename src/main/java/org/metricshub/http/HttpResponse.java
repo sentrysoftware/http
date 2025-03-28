@@ -1,10 +1,10 @@
-package org.sentrysoftware.http;
+package org.metricshub.http;
 
 /*-
  * ╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲
  * HTTP Java Client
  * ჻჻჻჻჻჻
- * Copyright (C) 2023 - 2024 Sentry Software
+ * Copyright (C) 2023 MetricsHub
  * ჻჻჻჻჻჻
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class HttpResponse {
 	 */
 	public HttpResponse() {
 		statusCode = 0;
-		header =  new StringBuilder();
+		header = new StringBuilder();
 		body = new StringBuilder();
 	}
 
@@ -105,5 +105,4 @@ public class HttpResponse {
 	public String toString() {
 		return new StringBuilder().append(header).append("\n").append(body).toString();
 	}
-
 }

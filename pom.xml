@@ -2,24 +2,23 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.sentrysoftware</groupId>
+		<groupId>org.metricshub</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>2</version>
 	</parent>
 
-	<groupId>org.sentrysoftware</groupId>
-	<artifactId>http</artifactId>
+	<artifactId>simple-http-java</artifactId>
 	<version>1.1.00-SNAPSHOT</version>
 
 	<name>HTTP Java Client</name>
 	<description>HTTP Client for Java</description>
 
 	<organization>
-		<name>Sentry Software</name>
-		<url>https://sentrysoftware.com</url>
+		<name>MetricsHub</name>
+		<url>https://metricshub.com</url>
 	</organization>
 
-	<url>https://sentrysoftware.org/http</url>
+	<url>https://metricshub.org/simple-http-java</url>
 	<inceptionYear>2023</inceptionYear>
 
 	<licenses>
@@ -32,33 +31,26 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/sentrysoftware/http/issues/</url>
+		<url>https://github.com/metricshub/simple-http-java/issues/</url>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/sentrysoftware/http.git</connection>
-		<url>https://github.com/sentrysoftware/http</url>
+		<connection>scm:git:https://github.com/metricshub/simple-http-java.git</connection>
+		<url>https://github.com/metricshub/simple-http-java</url>
 		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
 		<developer>
 			<name>Bertrand Martin (@bertysentry)</name>
-			<email>bertrand@sentrysoftware.com</email>
+			<email>bertrand@metricshub.com</email>
 			<roles>
 				<role>maintainer</role>
 			</roles>
 		</developer>
 		<developer>
 			<name>Nassim Boutekedjiret (@NassimBtk)</name>
-			<email>nassim@sentrysoftware.com</email>
-			<roles>
-				<role>maintainer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Kawtar Bakour (@KawtarBK9)</name>
-			<email>kawtar@sentrysoftware.com</email>
+			<email>nassim@metricshub.com</email>
 			<roles>
 				<role>maintainer</role>
 			</roles>
@@ -127,9 +119,9 @@
 						<notimestamp>true</notimestamp>
 						<failOnError>false</failOnError>
 						<sourceFileIncludes>
-							<include>org/sentrysoftware/http/HttpClient.java</include>
-							<include>org/sentrysoftware/http/HttpResponse.java</include>
-							<include>org/sentrysoftware/http/ProtocolOverridingSSLSocketFactory.java</include>
+							<include>org/metricshub/http/HttpClient.java</include>
+							<include>org/metricshub/http/HttpResponse.java</include>
+							<include>org/metricshub/http/ProtocolOverridingSSLSocketFactory.java</include>
 						</sourceFileIncludes>
 						<sourcepath>${basedir}/src/main/java</sourcepath>
 					</configuration>
@@ -196,6 +188,31 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
+			</plugin>
+
+			<!-- Prettier -->
+			<plugin>
+				<groupId>com.hubspot.maven.plugins</groupId>
+				<artifactId>prettier-maven-plugin</artifactId>
+				<version>0.21</version>
+				<configuration>
+					<prettierJavaVersion>2.5.0</prettierJavaVersion>
+					<ignoreConfigFile>false</ignoreConfigFile>
+					<ignoreEditorConfig>false</ignoreEditorConfig>
+					<inputGlobs>
+						<inputGlob>src/main/java/**/*.java</inputGlob>
+						<inputGlob>src/test/java/**/*.java</inputGlob>
+						<inputGlob>src/main/java21/**/*.java</inputGlob>
+					</inputGlobs>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>

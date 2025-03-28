@@ -1,4 +1,4 @@
-package org.sentrysoftware.http;
+package org.metricshub.http;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -47,5 +47,4 @@ class HttpResponseTest {
 		r.appendBody("def");
 		assertEquals("first: premier\nsecond: 1 + 1\n\nabcdef", r.toString());
 	}
-
 }
