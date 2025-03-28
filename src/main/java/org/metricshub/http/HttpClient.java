@@ -1,10 +1,10 @@
-package org.sentrysoftware.http;
+package org.metricshub.http;
 
 /*-
  * ╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲
  * HTTP Java Client
  * ჻჻჻჻჻჻
- * Copyright (C) 2023 - 2024 Sentry Software
+ * Copyright (C) 2023 MetricsHub
  * ჻჻჻჻჻჻
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +22,19 @@ package org.sentrysoftware.http;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileNotFoundException;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -40,25 +43,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import javax.net.ssl.SSLSocketFactory;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.net.Authenticator;
 
 /**
  * Simple HTTP Client implementation for Java's HttpURLConnection.<br>
  * It has no external dependencies and facilitates the execution of HTTP requests.
  */
 public class HttpClient {
-
 	static {
 		// Fix JDK-8208526 issue
 		System.setProperty("jdk.tls.acknowledgeCloseNotify", "true");
@@ -68,7 +65,7 @@ public class HttpClient {
 	 * The default User-Agent to use if the <code>userAgent</code> value is not provided to the HttpClient.
 	 */
 	public static final String DEFAULT_USER_AGENT =
-			"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393 org.sentrysoftware.http";
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393 org.metricshub.http";
 	private static final int MAX_CONTENT_LENGTH = 50 * 1024 * 1024; // 50 MB max
 	private static final int BUFFER_SIZE = 64 * 1024; // 64 KB chunks
 	private static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
@@ -83,18 +80,19 @@ public class HttpClient {
 	 * Trust manager that welcomes any certificate from anywhere
 	 */
 	private static final TrustManager[] LOUSY_TRUST_MANAGER = new TrustManager[] {
-			new X509TrustManager() {
-				@Override
-				public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
-
-				@Override
-				public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
-
-				@Override
-				public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
+		new X509TrustManager() {
+			@Override
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
 			}
-	};
 
+			@Override
+			public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
+
+			@Override
+			public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {}
+		}
+	};
 
 	/**
 	 * The lousy SSL Socket Factory, that accepts any certificate
@@ -105,6 +103,7 @@ public class HttpClient {
 	 * The default SSL protocols available in this JRE
 	 */
 	private static final String[] DEFAULT_SSL_PROTOCOLS;
+
 	static {
 		SSLContext sc = null;
 		try {
@@ -115,7 +114,6 @@ public class HttpClient {
 		DEFAULT_SSL_PROTOCOLS = sc.getDefaultSSLParameters().getProtocols();
 	}
 
-
 	/**
 	 * Returns the InputStream that will be properly decoded, according to the
 	 * content encoding of the HTTP response.
@@ -124,7 +122,6 @@ public class HttpClient {
 	 * @return the input stream to read from
 	 */
 	private static InputStream getDecodedStream(HttpURLConnection httpURL) {
-
 		String contentEncoding = httpURL.getContentEncoding();
 
 		try {
@@ -140,9 +137,7 @@ public class HttpClient {
 			// If getInputStream() failed, then use the error stream, if available
 			return httpURL.getErrorStream();
 		}
-
 	}
-
 
 	/**
 	 * @param url The URL to be requested (e.g. https://w3.test.org/site/list.jsp)
@@ -165,18 +160,21 @@ public class HttpClient {
 	 * @throws FileNotFoundException when the specified downloadToPath is not correct (not a file, not accessible, etc.)
 	 */
 	public static HttpResponse sendRequest(
-			String url,
-			String method,
-			String [] specifiedSslProtocolArray,
-			String username, char[] password,
-			String proxyServer, int proxyPort, String proxyUsername, char[] proxyPassword,
-			String userAgent,
-			Map<String, String> addHeaderMap,
-			String body,
-			int timeout,
-			String downloadToPath
+		String url,
+		String method,
+		String[] specifiedSslProtocolArray,
+		String username,
+		char[] password,
+		String proxyServer,
+		int proxyPort,
+		String proxyUsername,
+		char[] proxyPassword,
+		String userAgent,
+		Map<String, String> addHeaderMap,
+		String body,
+		int timeout,
+		String downloadToPath
 	) throws IOException {
-
 		// Connect through a proxy?
 		boolean useProxy = proxyServer != null && !proxyServer.isEmpty();
 
@@ -193,7 +191,6 @@ public class HttpClient {
 		// Perform some verifications on the specified downloadToPath
 		File downloadToFile = null;
 		if (downloadToPath != null && !downloadToPath.isEmpty()) {
-
 			// So, the user specified a file path to download to
 			downloadToFile = new File(downloadToPath);
 
@@ -210,39 +207,35 @@ public class HttpClient {
 			}
 		}
 
-
 		/////////////////////////////////////////
 		//      H T T P S   C a s e            //
 		/////////////////////////////////////////
 
 		// For HTTPS connections, we need to setup more things
 		if (httpURL instanceof HttpsURLConnection) {
-
 			// In order to accept to connect to all invalid HTTPS servers, we need to setup
 			// our own lousy -- very untight -- verifiers
-			((HttpsURLConnection)httpURL).setHostnameVerifier(LOUSY_HOSTNAME_VERIFIER);
+			((HttpsURLConnection) httpURL).setHostnameVerifier(LOUSY_HOSTNAME_VERIFIER);
 
 			// If no protocols were specified (as normal), use the default ones
 			if (specifiedSslProtocolArray == null || specifiedSslProtocolArray.length == 0) {
-
 				// So, simply use the base socket factory
-				((HttpsURLConnection)httpURL).setSSLSocketFactory(BASE_SOCKET_FACTORY);
-
+				((HttpsURLConnection) httpURL).setSSLSocketFactory(BASE_SOCKET_FACTORY);
 			} else {
-
 				// Clean-up the list of specified protocols (remove non supported ones, incl. SSLv2Hello)
-				String[] protocolsToEnable = Arrays.stream(specifiedSslProtocolArray)
+				String[] protocolsToEnable = Arrays
+					.stream(specifiedSslProtocolArray)
 					.filter(p -> p != null && !"SSLv2Hello".equalsIgnoreCase(p))
 					.filter(p -> Arrays.stream(DEFAULT_SSL_PROTOCOLS).anyMatch(d -> d.equalsIgnoreCase(p)))
 					.toArray(String[]::new);
 
 				// Create a new SSL socket factory with these settings
-				SSLSocketFactory overridenSocketFactory =
-						new ProtocolOverridingSSLSocketFactory(BASE_SOCKET_FACTORY, protocolsToEnable);
-				((HttpsURLConnection)httpURL).setSSLSocketFactory(overridenSocketFactory);
-
+				SSLSocketFactory overridenSocketFactory = new ProtocolOverridingSSLSocketFactory(
+					BASE_SOCKET_FACTORY,
+					protocolsToEnable
+				);
+				((HttpsURLConnection) httpURL).setSSLSocketFactory(overridenSocketFactory);
 			}
-
 		}
 
 		// Setup the HTTP connection
@@ -271,17 +264,11 @@ public class HttpClient {
 		}
 
 		// Authentication
-		ThreadSafeNoCacheAuthenticator.setCredentials(
-				username,
-				password,
-				proxyUsername,
-				proxyPassword
-		);
+		ThreadSafeNoCacheAuthenticator.setCredentials(username, password, proxyUsername, proxyPassword);
 		Authenticator.setDefault(ThreadSafeNoCacheAuthenticator.getInstance());
 
 		// Go!
 		try {
-
 			httpURL.connect();
 
 			// Send our request
@@ -299,13 +286,12 @@ public class HttpClient {
 			response.setStatusCode(httpURL.getResponseCode());
 
 			// Read the response headers
-			httpURL.getHeaderFields().forEach((header, valueList) ->
-				valueList.forEach(value -> response.appendHeader(header, value))
-			);
+			httpURL
+				.getHeaderFields()
+				.forEach((header, valueList) -> valueList.forEach(value -> response.appendHeader(header, value)));
 
 			// Do we have a file path to write to?
 			if (downloadToFile != null) {
-
 				// If the specified downloadToPath is a directory, we will have to make up a file name
 				// by retrieving the name of the resource that we're downloading, basically
 				// We can do this only at the very last second because the user may have specified a
@@ -320,8 +306,9 @@ public class HttpClient {
 				}
 
 				// Download the content directly to the file
-				try (FileOutputStream fileStream = new FileOutputStream(downloadToPath);
-						InputStream httpStream = getDecodedStream(httpURL)
+				try (
+					FileOutputStream fileStream = new FileOutputStream(downloadToPath);
+					InputStream httpStream = getDecodedStream(httpURL)
 				) {
 					byte[] tempBuf = new byte[BUFFER_SIZE];
 					int readBytes;
@@ -359,8 +346,9 @@ public class HttpClient {
 			}
 
 			// Read body by chunks
-			ByteArrayOutputStream bodyBytes = contentLength > 0 ?
-					new ByteArrayOutputStream(contentLength) : new ByteArrayOutputStream();
+			ByteArrayOutputStream bodyBytes = contentLength > 0
+				? new ByteArrayOutputStream(contentLength)
+				: new ByteArrayOutputStream();
 
 			byte[] buffer = new byte[BUFFER_SIZE];
 			int totalBytesCount = 0;
@@ -379,16 +367,12 @@ public class HttpClient {
 
 			// Return
 			return response;
-
 		} finally {
-
 			// Disconnect
 			httpURL.disconnect();
 
 			// Clear the credentials
 			ThreadSafeNoCacheAuthenticator.clearCredentials();
 		}
-
 	}
-
 }

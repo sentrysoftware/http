@@ -1,10 +1,10 @@
-package org.sentrysoftware.http;
+package org.metricshub.http;
 
 /*-
  * ╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲
  * HTTP Java Client
  * ჻჻჻჻჻჻
- * Copyright (C) 2023 - 2024 Sentry Software
+ * Copyright (C) 2023 MetricsHub
  * ჻჻჻჻჻჻
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ package org.sentrysoftware.http;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -61,7 +60,8 @@ public class ProtocolOverridingSSLSocketFactory extends SSLSocketFactory {
 	}
 
 	@Override
-	public Socket createSocket(final Socket socket, final String host, final int port, final boolean autoClose) throws IOException {
+	public Socket createSocket(final Socket socket, final String host, final int port, final boolean autoClose)
+		throws IOException {
 		Socket underlyingSocket = underlyingSSLSocketFactory.createSocket(socket, host, port, autoClose);
 		return overrideProtocol(underlyingSocket);
 	}
@@ -73,7 +73,8 @@ public class ProtocolOverridingSSLSocketFactory extends SSLSocketFactory {
 	}
 
 	@Override
-	public Socket createSocket(final String host, final int port, final InetAddress localAddress, final int localPort) throws IOException {
+	public Socket createSocket(final String host, final int port, final InetAddress localAddress, final int localPort)
+		throws IOException {
 		Socket underlyingSocket = underlyingSSLSocketFactory.createSocket(host, port, localAddress, localPort);
 		return overrideProtocol(underlyingSocket);
 	}
@@ -85,7 +86,12 @@ public class ProtocolOverridingSSLSocketFactory extends SSLSocketFactory {
 	}
 
 	@Override
-	public Socket createSocket(final InetAddress host, final int port, final InetAddress localAddress, final int localPort) throws IOException {
+	public Socket createSocket(
+		final InetAddress host,
+		final int port,
+		final InetAddress localAddress,
+		final int localPort
+	) throws IOException {
 		Socket underlyingSocket = underlyingSSLSocketFactory.createSocket(host, port, localAddress, localPort);
 		return overrideProtocol(underlyingSocket);
 	}
@@ -99,7 +105,7 @@ public class ProtocolOverridingSSLSocketFactory extends SSLSocketFactory {
 	 **/
 	private Socket overrideProtocol(final Socket socket) {
 		if (socket instanceof SSLSocket && enabledProtocols != null && enabledProtocols.length > 0) {
-			((SSLSocket)socket).setEnabledProtocols(enabledProtocols);
+			((SSLSocket) socket).setEnabledProtocols(enabledProtocols);
 		}
 		return socket;
 	}

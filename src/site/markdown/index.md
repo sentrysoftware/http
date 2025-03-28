@@ -31,7 +31,7 @@ Simply add HTTP in the list of dependencies in your [Maven **pom.xml**](https://
 Then, invoke the HTTP Client as follows:
 
 ```java
-package org.sentrysoftware.http;
+package org.metricshub.http;
 
 import java.io.IOException;
 import java.util.Map;

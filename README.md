@@ -1,13 +1,13 @@
 # HTTP Java Client
 
-![GitHub release (with filter)](https://img.shields.io/github/v/release/sentrysoftware/http)
-![Build](https://img.shields.io/github/actions/workflow/status/sentrysoftware/http/deploy.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/sentrysoftware/http)
-![License](https://img.shields.io/github/license/sentrysoftware/http)
+![GitHub release (with filter)](https://img.shields.io/github/v/release/metricshub/http)
+![Build](https://img.shields.io/github/actions/workflow/status/metricshub/http/deploy.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/metricshub/http)
+![License](https://img.shields.io/github/license/metricshub/http)
 
 The HTTP Java Client is a simple Java library that facilitates the execution of HTTP requests. Built on Java's HttpURLConnection, it requires no external dependencies and supports various HTTP methods (GET, POST, PUT, DELETE).
 
-See **[Project Documentation](https://sentrysoftware.org/http)** and the [Javadoc](https://sentrysoftware.org/http/apidocs) for more information on how to use this library in your code.
+See **[Project Documentation](https://metricshub.org/http)** and the [Javadoc](https://metricshub.org/http/apidocs) for more information on how to use this library in your code.
 
 ## Build instructions
 
